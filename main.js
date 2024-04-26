@@ -2,6 +2,15 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('The script is loaded and running!');
 });
 
+function d20() {
+  //We are trying to get a random int between zero and 20
+  const randomNumber = Math.random(); //return a number equal or greater to zero and less than 1.  0 <= x < 1
+  const randomProduct = randomNumber * 20; //0*20 = 0 0.9999 * 20 = 19.998.  This is going to give us a number 0 <= x <20
+  const randomInt = Math.floor(randomProduct); // This will round down the number.  We are now going to have ints between 0 and 19
+  const d20 = randomInt + 1; // add one to make it a dice.
+  return d20;
+}
+
 class Character {
   constructor(maxHp, ac, ap) {
     this.maxHp = maxHp;
@@ -10,7 +19,6 @@ class Character {
     this.ap = ap;
   }
   #hurt(amount) {
-    //Make this private.
     this.hp = this.hp - amount;
     //TODO: Update this function to handel zero health event
   }
@@ -20,14 +28,11 @@ class Character {
 
   attack(target) {
     const dmg = 5;
-    target.defend(5); //update target.hurt(5) to target.defend(5) to allow better processing of an attack.
+    target.defend(5);
   }
-  //The target may have resistances, immunities, armor, items, etc. that help avoid an attack.  We don't want to allow a method to hurt us without first processing defense
-  //At this stage defend just runs hurt, but we will be updating this soon.
+
   defend(amount) {
     this.#hurt(amount);
-    //we made hurt private by adding a # before the name. This means I can no longer call hero.hurt(5).  I now have to call hero.defend(5) and the defend method can call this.hurt(5)
-    //this allows me to still have the hurt functionality but protects me from making a mistake in the future and calling it directly without first processing defense.
   }
 }
 
