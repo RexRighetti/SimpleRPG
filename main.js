@@ -10,9 +10,11 @@ class Character {
   }
   hurt(amount) {
     this.hp = this.hp - amount;
-    //This reduces hit points by the amount we provided.  Character.hurt(10) would subtract 10 from hit points.
-    //What do we want to happen when HP is zero?  In some games like DND you can have negative hit points, but your status becomes unconscious
-    //in other games you revert to a check point and restore health.  This is logic you need to add later based on the requirements.
+    //TODO: Update this function to handel zero health event
+  }
+  heal(amount) {
+    this.hp = this.hp + amount;
+    //This adds the amount provided to the health.  In most RPGs we do not want to go over Max health.  We will fix this in the next commit.
   }
 }
 
