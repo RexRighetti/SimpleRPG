@@ -3,8 +3,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function d(sides) {
-  //We can refactor the D20 into one line.  return Math.floor(Math.random() * 20) + 1;
-  //but we can also use this function for any dice by adding a sides parameter and replacing 20 with number of sides.
   return Math.floor(Math.random() * sides) + 1;
 }
 
@@ -24,12 +22,15 @@ class Character {
   }
 
   attack(target) {
-    const dmg = 5;
-    target.defend(5);
+    const hitRoll = d(20) + this.ap; //we can now have a random roll to hit buffed by attack power.
+    const damageRoll = d(4) + d(4) + 3; // we can now have random damage.  In this case it would be between 5 and 11.
+    target.defend(hitRoll, damageRoll); // Add the hitRoll to defend
   }
 
-  defend(amount) {
-    this.#hurt(amount);
+  defend(hitRoll, damageRoll) {
+    //update defends parameters.
+    //If Hit roll is > than armor class, the attack lands and we take damage, otherwise the attack is blocked.
+    if (hitRoll > this.ac) this.#hurt(damageRoll);
   }
 }
 
