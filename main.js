@@ -3,18 +3,20 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 class Character {
-  constructor(hp, ac, ap) {
-    this.hp = hp; //Set Starting Hit Points
-    this.ac = ac; // Set Starting Armor Class
-    this.ap = ap; // Set Starting Attack Power
+  constructor(maxHp, ac, ap) {
+    // updated parameter from HP to maxHP
+    this.maxHp = maxHp; //added new attribute to track maximum HP
+    this.hp = maxHp; //set HP to full
+    this.ac = ac;
+    this.ap = ap;
   }
   hurt(amount) {
     this.hp = this.hp - amount;
     //TODO: Update this function to handel zero health event
   }
   heal(amount) {
-    this.hp = this.hp + amount;
-    //This adds the amount provided to the health.  In most RPGs we do not want to go over Max health.  We will fix this in the next commit.
+    this.hp = Math.min(this.hp + amount, this.maxHp);
+    //this.hp is set to the lessor value of this.hp + amount and this.maxHp.  therefore if you heal more than maxHP, HP will be set to the max.
   }
 }
 
