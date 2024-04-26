@@ -16,7 +16,15 @@ class Character {
   }
   heal(amount) {
     this.hp = Math.min(this.hp + amount, this.maxHp);
-    //this.hp is set to the lessor value of this.hp + amount and this.maxHp.  therefore if you heal more than maxHP, HP will be set to the max.
+  }
+  //If something attacks a globin, i could run goblin.hurt(5), but this doesn't reflect what is attacking the goblin or give the goblin the ability to defend.
+  //Lets add some logic for attack.
+  //attack(target:Character):void is going to allow a character to attack a character.  (this can later be adapted to attack objects or other environments if you choose)
+
+  attack(target) {
+    // hero.attack(goblin) would set target as goblin.
+    const dmg = 5; //Set Damage to a constant.
+    target.hurt(5); //this would run goblin.hurt(5)
   }
 }
 
