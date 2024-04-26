@@ -6,11 +6,6 @@ function d(sides) {
   return Math.floor(Math.random() * sides) + 1;
 }
 
-//Lets add logs to the character class we can a little detail on what is happening
-// We are going to use template strings.  this uses the backtick '`' instead of single or double quotes.  the backtick is on the key with the tildes '~'
-//a template string lets you include javascript in the string by escaping the js with `${JS GOES HERE}`
-//an example would be 'you rolled a ${d(6)}' inside the escape we call the d(6) function.  If the d(6) function returns 3, the output would be "you rolled a 3"
-
 class Character {
   constructor(name, maxHp, ac, ap) {
     this.name = name; //Add a name attribute to improve our logs
@@ -28,7 +23,6 @@ class Character {
   heal(amount) {
     this.hp = Math.min(this.hp + amount, this.maxHp);
     console.log(`${this.name} is healed ${amount} points`);
-    //do we want to correct this log to show point or points depending on if the value is 1 or >1?
   }
 
   attack(target) {
@@ -51,5 +45,62 @@ class Character {
   }
 }
 
-const hero = new Character('Mino', 50, 16, 7); //Update to instantiate the class with a name attribute.
+//add a basic UI
+class singleCombat {
+  constructor(Character1, Character2) {
+    this.characters = [Character1, Character2];
+    this.turn = d(2) - 1;
+    this.renderPlayers();
+  }
+
+  renderPlayers() {
+    const container = document.getElementById('player-container');
+    container.innerHTML = ''; // Clear existing content
+    this.characters.forEach((player, index) => {
+      const isMyTurn = this.turn === index;
+      const playerElement = document.createElement('div');
+      playerElement.className = 'player' + (isMyTurn ? ' highlight' : '');
+      playerElement.innerHTML = `
+        <span class='name'>${player.name}</span>
+        <div class='details'>HP: ${player.hp} / ${player.maxHp}, AC: ${
+        player.ac
+      }, AP: ${player.ap}</div>
+        ${
+          !isMyTurn
+            ? `<button class="attack-button" onclick="combat.attack(${
+                this.turn
+              }, ${index})">Attack from ${
+                this.characters[this.turn].name
+              }</button>`
+            : ''
+        }
+        ${
+          isMyTurn
+            ? `<button class="heal-button" onclick="combat.heal(${this.turn}, ${
+                d(4) + d(4)
+              })">Heal 2d4</button>`
+            : ''
+        }
+      `;
+      container.appendChild(playerElement);
+    });
+  }
+  nextTurn() {
+    this.turn = (this.turn + 1) % this.characters.length;
+    this.renderPlayers();
+  }
+
+  attack(playerIndex, targetIndex) {
+    this.characters[playerIndex].attack(this.characters[targetIndex]);
+    this.nextTurn();
+  }
+
+  heal(playerIndex, amount) {
+    this.characters[playerIndex].heal(amount);
+    this.nextTurn();
+  }
+}
+
+const hero = new Character('Mino', 50, 16, 7);
 const goblin = new Character('Goblin', 10, 12, 4);
+const combat = new singleCombat(hero, goblin);
