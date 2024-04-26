@@ -2,13 +2,10 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('The script is loaded and running!');
 });
 
-function d20() {
-  //We are trying to get a random int between zero and 20
-  const randomNumber = Math.random(); //return a number equal or greater to zero and less than 1.  0 <= x < 1
-  const randomProduct = randomNumber * 20; //0*20 = 0 0.9999 * 20 = 19.998.  This is going to give us a number 0 <= x <20
-  const randomInt = Math.floor(randomProduct); // This will round down the number.  We are now going to have ints between 0 and 19
-  const d20 = randomInt + 1; // add one to make it a dice.
-  return d20;
+function d(sides) {
+  //We can refactor the D20 into one line.  return Math.floor(Math.random() * 20) + 1;
+  //but we can also use this function for any dice by adding a sides parameter and replacing 20 with number of sides.
+  return Math.floor(Math.random() * sides) + 1;
 }
 
 class Character {
