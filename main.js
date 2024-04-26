@@ -8,9 +8,13 @@ class Character {
     this.ac = ac; // Set Starting Armor Class
     this.ap = ap; // Set Starting Attack Power
   }
+  hurt(amount) {
+    this.hp = this.hp - amount;
+    //This reduces hit points by the amount we provided.  Character.hurt(10) would subtract 10 from hit points.
+    //What do we want to happen when HP is zero?  In some games like DND you can have negative hit points, but your status becomes unconscious
+    //in other games you revert to a check point and restore health.  This is logic you need to add later based on the requirements.
+  }
 }
 
-//Create a hero and goblin Character.  Hero has 50 Health, 16 Armor Class and 7 Attack power.  This matches the constrctor(hp,ac,ap)
 const hero = new Character(50, 16, 7);
-//What are the stats of the goblin
 const goblin = new Character(10, 12, 4);
