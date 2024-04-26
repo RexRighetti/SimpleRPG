@@ -1,0 +1,39 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* Adjust based on how many columns you want */
+  gap: 10px;
+  margin: 20px;
+}
+
+.player {
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.player.highlight {
+  border-color: #007BFF;
+  background-color: #E3F2FD;
+}
+
+.details {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.attack-button,
+.heal-button {
+  background-color: #007BFF;
+  /* Blue background */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.heal-button {
+  background-color: #28a745;
+  /* Green background for heal */
+}
