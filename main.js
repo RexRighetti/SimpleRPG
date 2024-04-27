@@ -2,13 +2,26 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('The script is loaded and running!');
 });
 
-function d(sides) {
-  return Math.floor(Math.random() * sides) + 1;
+// added a Dice class, currently is acting more like a namespace to keep dice functions organized.
+
+class Dice {
+  static d(sides) {
+    //A static function does not need to be instantiated.  I can call it directly from the class without a new keyword
+    return Math.floor(Math.random() * sides) + 1;
+  }
+  static rollMany(num, sides) {
+    //Roll Many uses the previous roll 1,  currently called d(), however a name change may improve this.
+    const results = []; //Create an array for the results
+    for (let x = 0; x < num; x++) {
+      results.push(this.d(sides)); //loop through number of dice you want to roll and add the roll to the array.
+    }
+    return results; //return the array
+  }
 }
 
 class Character {
   constructor(name, maxHp, ac, ap) {
-    this.name = name; //Add a name attribute to improve our logs
+    this.name = name;
     this.maxHp = maxHp;
     this.hp = maxHp;
     this.ac = ac;
@@ -26,6 +39,7 @@ class Character {
   }
 
   attack(target) {
+    const { d } = Dice; //the d function is no longer available in the main body.  We have to pull it from the Dice class whenever we use it.  Can this be improved?
     const hitRoll = d(20) + this.ap;
     const damageRoll = d(4) + d(4) + 3;
     console.log(
@@ -48,12 +62,14 @@ class Character {
 //add a basic UI
 class singleCombat {
   constructor(Character1, Character2) {
+    const { d } = Dice;
     this.characters = [Character1, Character2];
     this.turn = d(2) - 1;
     this.renderPlayers();
   }
 
   renderPlayers() {
+    const { d } = Dice;
     const container = document.getElementById('player-container');
     container.innerHTML = ''; // Clear existing content
     this.characters.forEach((player, index) => {
